@@ -2,8 +2,8 @@ import { Text, Container, Graphics } from "pixi.js";
 import { gsap } from "gsap";
 import { BaseScene } from "../core/BaseScene";
 import { SceneManager } from "../core/SceneManager";
-import { MenuScene } from "./MenuScene";
 import { GameState } from "../core/GameState";
+import { MenuScene } from "./MenuScene";
 import { ResultsScene } from "./ResultsScene";
 
 export class QCMScene extends BaseScene {
@@ -18,14 +18,15 @@ export class QCMScene extends BaseScene {
 
   enter(): void {
     this.state.total++;
+
     // ── 1. Générer la question ──────────────────
     const a = Math.floor(Math.random() * 9) + 1;
     const b = Math.floor(Math.random() * 9) + 1;
     const bonneReponse = a + b;
 
-    // ── 2. Mauvaises réponses ───────────────────
+    // ── 2. Mauvaises réponses uniques ───────────
     const mauvaise1 = bonneReponse + 2;
-    const mauvaise2 = bonneReponse + 4;
+    const mauvaise2 = bonneReponse - 2;
 
     // ── 3. Mélanger les 3 réponses ──────────────
     const reponses = this.shuffle([bonneReponse, mauvaise1, mauvaise2]);
@@ -52,7 +53,6 @@ export class QCMScene extends BaseScene {
 
     // ── 6. Boutons réponses ─────────────────────
     const positionsX = [180, 400, 620];
-
     let answered = false;
 
     reponses.forEach((valeur, i) => {
@@ -64,12 +64,12 @@ export class QCMScene extends BaseScene {
       btn.on("pointerdown", () => {
         if (answered) return;
         answered = true;
-        if (valeur === bonneReponse) {
-          // À la bonne réponse
-          this.state.score++;
 
+        if (valeur === bonneReponse) {
+          this.state.score++;
           feedback.text = "✅ Bravo !";
           feedback.style.fill = 0x2ecc71;
+
           gsap.to(btn, {
             pixi: { scaleX: 1.2, scaleY: 1.2 },
             duration: 0.2,
@@ -81,18 +81,16 @@ export class QCMScene extends BaseScene {
             delay: 0.4,
           });
 
-          // setTimeout
           setTimeout(() => {
             if (this.state.total >= 5) {
-              this.manager.go(new ResultsScene(this.manager, this.state));
+              this.manager.go(
+                new ResultsScene(this.manager, this.state, "qcm"),
+              );
             } else {
               this.manager.go(new QCMScene(this.manager, this.state));
             }
           }, 1500);
-
-          console.log(`Score: ${this.state.score} / ${this.state.total}`);
         } else {
-          answered = true; // ← bloque pendant l'animation
           feedback.text = "❌ Essaie encore !";
           feedback.style.fill = 0xe74c3c;
 
@@ -102,7 +100,7 @@ export class QCMScene extends BaseScene {
             yoyo: true,
             repeat: 5,
             onComplete: () => {
-              answered = false; // ← débloque après l'animation
+              answered = false;
             },
           });
         }
@@ -123,7 +121,7 @@ export class QCMScene extends BaseScene {
     this.removeChildren();
   }
 
-  // ── Helpers ────────────────────────────────────
+  // ── Helpers ─────────────────────────────────
   private makeButton(label: string, color = 0x2471a3): Container {
     const btn = new Container();
     btn.eventMode = "static";

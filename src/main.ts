@@ -20,10 +20,8 @@ await app.init({
 });
 document.body.appendChild(app.canvas);
 
-// ── Charger tous les assets ──────────────
 await AssetsLoader.loadAll();
 
-// ── Les deux objets persistants ──────────────
 const state = new GameState();
 const manager = new SceneManager(app);
 

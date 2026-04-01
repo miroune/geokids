@@ -1,72 +1,108 @@
 import { Text, Container, Graphics, Sprite, Texture } from "pixi.js";
+import { gsap } from "gsap";
 import { BaseScene } from "../core/BaseScene";
 import { SceneManager } from "../core/SceneManager";
-import { QCMScene } from "./QCMScene";
 import { GameState } from "../core/GameState";
+import { DragDropScene } from "./DragDropScene";
+import { NumpadScene } from "./NumpadScene";
+import { QCMScene } from "./QCMScene";
 
 export class MenuScene extends BaseScene {
-  // Déclare la propriété en haut de la classe
   private manager: SceneManager;
   private state: GameState;
 
   constructor(manager: SceneManager, state: GameState) {
     super();
-    this.manager = manager; // assigne manuellement
+    this.manager = manager;
     this.state = state;
   }
 
   enter(): void {
-    // Dans enter() — pas besoin d'await !
+    // ── Mascotte ────────────────────────────────
     const bunny = new Sprite(Texture.from("bunny"));
     bunny.anchor.set(0.5);
     bunny.x = 400;
-    bunny.y = 150;
+    bunny.y = 120;
     this.addChild(bunny);
-    // ── Titre ──────────────────────────────────
+
+    // ── Titre ────────────────────────────────────
     const title = new Text({
       text: "🔷 GéoKids",
       style: { fontFamily: "Arial", fontSize: 52, fill: 0xffd700 },
     });
     title.anchor.set(0.5);
     title.x = 400;
-    title.y = 250;
+    title.y = 230;
     this.addChild(title);
 
-    // ── Bouton Jouer ───────────────────────────
-    const button = new Container();
-    button.x = 400;
-    button.y = 400;
-    button.eventMode = "static";
-    button.cursor = "pointer";
-
-    const bg = new Graphics();
-    const drawBg = (color: number) => {
-      bg.clear();
-      bg.roundRect(-60, -30, 120, 60, 12);
-      bg.fill(color);
-    };
-    drawBg(0x2471a3);
-
-    const label = new Text({
-      text: "Jouer",
-      style: { fontFamily: "Arial", fontSize: 28, fill: 0xffffff },
-    });
-    label.anchor.set(0.5);
-
-    button.addChild(bg);
-    button.addChild(label);
-    this.addChild(button);
-
-    // ── Événements ─────────────────────────────
-    button.on("pointerover", () => drawBg(0x3498db));
-    button.on("pointerout", () => drawBg(0x2471a3));
-    button.on("pointerdown", () => {
-      this.state.reset(); // ← remet score=0, total=0
+    // ── Bouton QCM ───────────────────────────────
+    const btnQCM = this.makeButton("➕ Calcul mental");
+    btnQCM.x = 400;
+    btnQCM.y = 340;
+    btnQCM.on("pointerdown", () => {
+      this.state.reset();
       this.manager.go(new QCMScene(this.manager, this.state));
+    });
+    this.addChild(btnQCM);
+
+    // ── Bouton Drag & Drop ───────────────────────
+    const btnDrag = this.makeButton("🎯 Glisser-déposer");
+    btnDrag.x = 400;
+    btnDrag.y = 430;
+    btnDrag.on("pointerdown", () => {
+      this.state.reset();
+      this.manager.go(new DragDropScene(this.manager, this.state));
+    });
+    this.addChild(btnDrag);
+
+    // ── Bouton NUmpad ───────────────────────
+    const btnNumpad = this.makeButton("🎯 Numpad");
+    btnNumpad.x = 400;
+    btnNumpad.y = 520;
+    btnNumpad.on("pointerdown", () => {
+      this.state.reset();
+      this.manager.go(new NumpadScene(this.manager, this.state));
+    });
+    this.addChild(btnNumpad);
+
+    // ── Animation d'entrée ───────────────────────
+    gsap.from(title, {
+      pixi: { scaleX: 0, scaleY: 0 },
+      duration: 0.6,
+      ease: "back.out(1.5)",
     });
   }
 
   exit(): void {
-    this.removeChildren(); // nettoie tout
+    this.removeChildren();
+  }
+
+  // ── Helper bouton ────────────────────────────
+  private makeButton(label: string, color = 0x2471a3): Container {
+    const btn = new Container();
+    btn.eventMode = "static";
+    btn.cursor = "pointer";
+
+    const bg = new Graphics();
+    const draw = (col: number) => {
+      bg.clear();
+      bg.roundRect(-110, -30, 220, 60, 12);
+      bg.fill(col);
+    };
+    draw(color);
+
+    const txt = new Text({
+      text: label,
+      style: { fontFamily: "Arial", fontSize: 26, fill: 0xffffff },
+    });
+    txt.anchor.set(0.5);
+
+    btn.addChild(bg);
+    btn.addChild(txt);
+
+    btn.on("pointerover", () => draw(color + 0x222222));
+    btn.on("pointerout", () => draw(color));
+
+    return btn;
   }
 }
