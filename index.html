@@ -6,6 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
+    <title>GéoKids</title>
     <style>
       * {
         margin: 0;
@@ -23,36 +24,26 @@
       canvas {
         display: block;
       }
-      @media (orientation: portrait) {
-        body {
-          transform: rotate(90deg);
-          transform-origin: left top;
-          width: 100vh;
-          height: 100vw;
-          position: absolute;
-          top: 100%;
-          left: 0;
-        }
-      }
-    </style>
-    <title>GéoKids</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        background: #000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        overflow: hidden;
-      }
     </style>
   </head>
   <body>
+    <div
+      id="rotate-msg"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: #1a1a2e;
+        color: white;
+        font-size: 24px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 999;
+      "
+    >
+      📱 Tourne ton écran<br />en mode paysage !
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

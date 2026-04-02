@@ -28,14 +28,26 @@ document.body.appendChild(app.canvas);
 function resize(): void {
   const scaleX = window.innerWidth / GAME_W;
   const scaleY = window.innerHeight / GAME_H;
-  const scale = Math.min(scaleX, scaleY); // garde les proportions
+  const scale = Math.min(scaleX, scaleY);
 
   app.canvas.style.width = `${GAME_W * scale}px`;
   app.canvas.style.height = `${GAME_H * scale}px`;
 }
 
+// ── Message rotation portrait → paysage ──────
+function checkOrientation(): void {
+  const msg = document.getElementById("rotate-msg")!;
+  msg.style.display = window.innerHeight > window.innerWidth ? "flex" : "none";
+}
+
+// ── Un seul listener resize ───────────────────
+window.addEventListener("resize", () => {
+  resize();
+  checkOrientation();
+});
+
 resize();
-window.addEventListener("resize", resize);
+checkOrientation();
 
 await AssetsLoader.loadAll();
 
