@@ -38,7 +38,7 @@ export class QCMScene extends BaseScene {
     });
     title.anchor.set(0.5);
     title.x = 400;
-    title.y = 180;
+    title.y = 135;
     this.addChild(title);
 
     // ── 5. Feedback ─────────────────────────────
@@ -48,7 +48,7 @@ export class QCMScene extends BaseScene {
     });
     feedback.anchor.set(0.5);
     feedback.x = 400;
-    feedback.y = 420;
+    feedback.y = 315;
     this.addChild(feedback);
 
     // ── 6. Boutons réponses ─────────────────────
@@ -58,7 +58,7 @@ export class QCMScene extends BaseScene {
     reponses.forEach((valeur, i) => {
       const btn = this.makeButton(String(valeur));
       btn.x = positionsX[i];
-      btn.y = 300;
+      btn.y = 225;
       this.addChild(btn);
 
       btn.on("pointerdown", () => {
@@ -110,7 +110,7 @@ export class QCMScene extends BaseScene {
     // ── 7. Bouton Menu ───────────────────────────
     const menuBtn = this.makeButton("← Menu", 0x555555);
     menuBtn.x = 400;
-    menuBtn.y = 520;
+    menuBtn.y = 390;
     menuBtn.on("pointerdown", () =>
       this.manager.go(new MenuScene(this.manager, this.state)),
     );

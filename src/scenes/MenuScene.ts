@@ -22,43 +22,51 @@ export class MenuScene extends BaseScene {
     const bunny = new Sprite(Texture.from("bunny"));
     bunny.anchor.set(0.5);
     bunny.x = 400;
-    bunny.y = 120;
+    bunny.y = 60;
     this.addChild(bunny);
 
     // ── Titre ────────────────────────────────────
     const title = new Text({
       text: "🔷 GéoKids",
-      style: { fontFamily: "Arial", fontSize: 52, fill: 0xffd700 },
+      style: { fontFamily: "Arial", fontSize: 48, fill: 0xffd700 },
     });
     title.anchor.set(0.5);
     title.x = 400;
-    title.y = 230;
+    title.y = 150;
     this.addChild(title);
 
-    // ── Bouton QCM ───────────────────────────────
-    const btnQCM = this.makeButton("➕ Calcul mental");
-    btnQCM.x = 400;
-    btnQCM.y = 340;
+    // ── Sous-titre ───────────────────────────────
+    const subtitle = new Text({
+      text: "Choisis un exercice !",
+      style: { fontFamily: "Arial", fontSize: 22, fill: 0xaaaaaa },
+    });
+    subtitle.anchor.set(0.5);
+    subtitle.x = 400;
+    subtitle.y = 210;
+    this.addChild(subtitle);
+
+    // ── 3 boutons côte à côte ────────────────────
+    const btnQCM = this.makeButton("➕ Calcul\nmental");
+    btnQCM.x = 160;
+    btnQCM.y = 330;
     btnQCM.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new QCMScene(this.manager, this.state));
     });
     this.addChild(btnQCM);
 
-    // ── Bouton Drag & Drop ───────────────────────
-    const btnDrag = this.makeButton("🎯 Glisser-déposer");
+    const btnDrag = this.makeButton("🎯 Glisser\ndéposer");
     btnDrag.x = 400;
-    btnDrag.y = 430;
+    btnDrag.y = 330;
     btnDrag.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new DragDropScene(this.manager, this.state));
     });
     this.addChild(btnDrag);
 
-    // ── Bouton NUmpad ───────────────────────
-    const btnNumpad = this.makeButton("🎯 Numpad");
-    btnNumpad.x = 400;
-    btnNumpad.y = 520;
+    const btnNumpad = this.makeButton("🔢 Saisie\nlibre");
+    btnNumpad.x = 640;
+    btnNumpad.y = 330;
     btnNumpad.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new NumpadScene(this.manager, this.state));
@@ -70,6 +78,13 @@ export class MenuScene extends BaseScene {
       pixi: { scaleX: 0, scaleY: 0 },
       duration: 0.6,
       ease: "back.out(1.5)",
+    });
+    gsap.from([btnQCM, btnDrag, btnNumpad], {
+      pixi: { alpha: 0, y: 360 },
+      duration: 0.4,
+      ease: "power2.out",
+      stagger: 0.1,
+      delay: 0.3,
     });
   }
 
@@ -86,14 +101,19 @@ export class MenuScene extends BaseScene {
     const bg = new Graphics();
     const draw = (col: number) => {
       bg.clear();
-      bg.roundRect(-110, -30, 220, 60, 12);
+      bg.roundRect(-90, -45, 180, 90, 14);
       bg.fill(col);
     };
     draw(color);
 
     const txt = new Text({
       text: label,
-      style: { fontFamily: "Arial", fontSize: 26, fill: 0xffffff },
+      style: {
+        fontFamily: "Arial",
+        fontSize: 22,
+        fill: 0xffffff,
+        align: "center",
+      },
     });
     txt.anchor.set(0.5);
 

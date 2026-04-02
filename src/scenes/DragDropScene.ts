@@ -51,7 +51,7 @@ export class DragDropScene extends BaseScene {
     pairs.forEach((pair, i) => {
       const zone = this.makeZone(String(pair.result));
       zone.x = zonesX[i];
-      zone.y = 420;
+      zone.y = 315;
       (zone as any)._expectedResult = pair.result;
       this.zones.push(zone);
       this.addChild(zone);
@@ -62,16 +62,16 @@ export class DragDropScene extends BaseScene {
     shuffledPairs.forEach((pair, i) => {
       const card = this.makeCard(pair.operation, pair.result);
       card.x = zonesX[i];
-      card.y = 220;
+      card.y = 165;
       (card as any)._homeX = zonesX[i];
-      (card as any)._homeY = 220;
+      (card as any)._homeY = 165;
       this.addChild(card);
     });
 
     // ── Bouton Menu ─────────────────────────────
     const menuBtn = this.makeButton("← Menu");
     menuBtn.x = 400;
-    menuBtn.y = 555;
+    menuBtn.y = 416;
     menuBtn.on("pointerdown", () =>
       this.manager.go(new MenuScene(this.manager, this.state)),
     );
@@ -79,7 +79,7 @@ export class DragDropScene extends BaseScene {
 
     // ── Événements globaux drag ──────────────────
     this.eventMode = "static";
-    this.hitArea = new Rectangle(0, 0, 800, 600);
+    this.hitArea = new Rectangle(0, 0, 800, 450);
     this.on("pointermove", this.onDragMove.bind(this));
     this.on("pointerup", this.onDragEnd.bind(this));
   }

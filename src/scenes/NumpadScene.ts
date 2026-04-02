@@ -28,18 +28,19 @@ export class NumpadScene extends BaseScene {
     });
     question.anchor.set(0.5);
     question.x = 400;
-    question.y = 60;
+    question.y = 50;
     this.addChild(question);
 
     // ── Rectangle ────────────────────────────────
-    const scale = 20;
+    const maxH = 150; // hauteur max disponible
+    const scale = Math.min(20, Math.floor(maxH / hauteur));
     const rectW = largeur * scale;
     const rectH = hauteur * scale;
 
     const rect = new Graphics();
     rect.rect(-rectW / 2, -rectH / 2, rectW, rectH);
     rect.fill(0xe74c3c);
-    rect.x = 400;
+    rect.x = 580;
     rect.y = 200;
     this.addChild(rect);
 
@@ -49,7 +50,7 @@ export class NumpadScene extends BaseScene {
       style: { fontFamily: "Arial", fontSize: 16, fill: 0xffffff },
     });
     lgLabel.anchor.set(0.5);
-    lgLabel.x = 400;
+    lgLabel.x = 580;
     lgLabel.y = rect.y - rectH / 2 - 20;
     this.addChild(lgLabel);
 
@@ -67,7 +68,7 @@ export class NumpadScene extends BaseScene {
     inputBox.roundRect(-80, -25, 160, 50, 8);
     inputBox.fill({ color: 0x000000, alpha: 0.3 });
     inputBox.stroke({ width: 2, color: 0xffd700 });
-    inputBox.x = 400;
+    inputBox.x = 580;
     inputBox.y = 330;
     this.addChild(inputBox);
 
@@ -76,7 +77,7 @@ export class NumpadScene extends BaseScene {
       style: { fontFamily: "Arial", fontSize: 28, fill: 0xffd700 },
     });
     inputText.anchor.set(0.5);
-    inputText.x = 400;
+    inputText.x = 580;
     inputText.y = 330;
     this.addChild(inputText);
 
@@ -86,13 +87,13 @@ export class NumpadScene extends BaseScene {
       style: { fontFamily: "Arial", fontSize: 26, fill: 0xffffff },
     });
     feedback.anchor.set(0.5);
-    feedback.x = 400;
-    feedback.y = 385;
+    feedback.x = 580;
+    feedback.y = 390;
     this.addChild(feedback);
 
     // ── Clavier ──────────────────────────────────
-    const startX = 100;
-    const startY = 200;
+    const startX = 200;
+    const startY = 150;
     const btnSize = 80;
     const labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "✓"];
 

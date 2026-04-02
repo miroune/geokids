@@ -11,7 +11,7 @@ PixiPlugin.registerPIXI({ Application });
 
 // ── Taille de référence fixe (ton design) ────
 const GAME_W = 800;
-const GAME_H = 600;
+const GAME_H = 450;
 
 const app = new Application();
 await app.init({

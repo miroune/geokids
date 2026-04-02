@@ -32,7 +32,7 @@ export class ResultsScene extends BaseScene {
     });
     titre.anchor.set(0.5);
     titre.x = 400;
-    titre.y = 150;
+    titre.y = 112;
     this.addChild(titre);
 
     // ── Score ─────────────────────────────────────
@@ -42,7 +42,7 @@ export class ResultsScene extends BaseScene {
     });
     score.anchor.set(0.5);
     score.x = 400;
-    score.y = 270;
+    score.y = 202;
     this.addChild(score);
 
     // ── Étoiles ───────────────────────────────────
@@ -54,13 +54,13 @@ export class ResultsScene extends BaseScene {
     });
     stars.anchor.set(0.5);
     stars.x = 400;
-    stars.y = 370;
+    stars.y = 277;
     this.addChild(stars);
 
     // ── Bouton Rejouer ────────────────────────────
     const rejouer = this.makeButton("🔄 Rejouer", 0x27ae60);
     rejouer.x = 280;
-    rejouer.y = 480;
+    rejouer.y = 360;
     rejouer.on("pointerdown", () => {
       this.state.reset();
       if (this.sceneOrigin === "dragdrop") {
@@ -76,7 +76,7 @@ export class ResultsScene extends BaseScene {
     // ── Bouton Menu ───────────────────────────────
     const menu = this.makeButton("🏠 Menu", 0x555555);
     menu.x = 520;
-    menu.y = 480;
+    menu.y = 360;
     menu.on("pointerdown", () => {
       this.manager.go(new MenuScene(this.manager, this.state));
     });
