@@ -11,8 +11,8 @@ PixiPlugin.registerPIXI({ Application });
 
 const app = new Application();
 await app.init({
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
   backgroundColor: 0x1a1a2e,
   resolution: window.devicePixelRatio || 1,
   autoDensity: true,
