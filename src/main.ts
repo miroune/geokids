@@ -9,16 +9,33 @@ import { AssetsLoader } from "./core/AssetsLoader";
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI({ Application });
 
+// ── Taille de référence fixe (ton design) ────
+const GAME_W = 800;
+const GAME_H = 600;
+
 const app = new Application();
 await app.init({
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: GAME_W,
+  height: GAME_H,
   backgroundColor: 0x1a1a2e,
   resolution: window.devicePixelRatio || 1,
   autoDensity: true,
   antialias: true,
 });
 document.body.appendChild(app.canvas);
+
+// ── Adapter le canvas à l'écran ──────────────
+function resize(): void {
+  const scaleX = window.innerWidth / GAME_W;
+  const scaleY = window.innerHeight / GAME_H;
+  const scale = Math.min(scaleX, scaleY); // garde les proportions
+
+  app.canvas.style.width = `${GAME_W * scale}px`;
+  app.canvas.style.height = `${GAME_H * scale}px`;
+}
+
+resize();
+window.addEventListener("resize", resize);
 
 await AssetsLoader.loadAll();
 
