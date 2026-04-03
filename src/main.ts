@@ -5,6 +5,7 @@ import { SceneManager } from "./core/SceneManager";
 import { GameState } from "./core/GameState";
 import { MenuScene } from "./scenes/MenuScene";
 import { AssetsLoader } from "./core/AssetsLoader";
+import { Theme } from "./core/Theme";
 
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI({ Application });
@@ -17,7 +18,7 @@ const app = new Application();
 await app.init({
   width: GAME_W,
   height: GAME_H,
-  backgroundColor: 0x1a1a2e,
+  backgroundColor: Theme.bgDark,
   resolution: window.devicePixelRatio || 1,
   autoDensity: true,
   antialias: true,

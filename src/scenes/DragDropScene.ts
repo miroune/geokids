@@ -11,6 +11,7 @@ import { SceneManager } from "../core/SceneManager";
 import { GameState } from "../core/GameState";
 import { MenuScene } from "./MenuScene";
 import { ResultsScene } from "./ResultsScene";
+import { Theme } from "../core/Theme";
 
 export class DragDropScene extends BaseScene {
   private manager: SceneManager;
@@ -129,7 +130,7 @@ export class DragDropScene extends BaseScene {
           // Colorer la carte en vert
           (card.children[0] as Graphics).clear();
           (card.children[0] as Graphics).roundRect(-70, -30, 140, 60, 12);
-          (card.children[0] as Graphics).fill(0x27ae60);
+          (card.children[0] as Graphics).fill(Theme.success);
 
           // Toutes les cartes placées → aller aux résultats
           if (this.matched === this.zones.length) {
@@ -186,7 +187,7 @@ export class DragDropScene extends BaseScene {
 
     const bg = new Graphics();
     bg.roundRect(-70, -30, 140, 60, 12);
-    bg.fill(0x2980b9);
+    bg.fill(Theme.primary);
 
     const txt = new Text({
       text: label,
@@ -217,11 +218,11 @@ export class DragDropScene extends BaseScene {
     const bg = new Graphics();
     bg.roundRect(-70, -35, 140, 70, 12);
     bg.fill(0x1a1a2e);
-    bg.stroke({ color: 0x3498db, width: 2 });
+    bg.stroke({ color: Theme.secondary, width: 2 });
 
     const txt = new Text({
       text: label,
-      style: { fontFamily: "Arial", fontSize: 28, fill: 0x3498db },
+      style: { fontFamily: "Arial", fontSize: 28, fill: Theme.secondary },
     });
     txt.anchor.set(0.5);
 
@@ -230,7 +231,7 @@ export class DragDropScene extends BaseScene {
   }
 
   // ── Fabriquer un bouton ──────────────────────
-  private makeButton(label: string, color = 0x555555): Container {
+  private makeButton(label: string, color = Theme.bgCard): Container {
     const c = new Container();
     c.eventMode = "static";
     c.cursor = "pointer";
@@ -250,8 +251,10 @@ export class DragDropScene extends BaseScene {
     txt.anchor.set(0.5);
 
     c.addChild(bg, txt);
-    c.on("pointerover", () => draw(color + 0x222222));
-    c.on("pointerout", () => draw(color));
+    c.on("pointerover", () => (bg.alpha = 0.8)); // légèrement transparent au survol;
+    c.on("pointerout", () => {
+      bg.alpha = 1; // opaque normal
+    });
 
     return c;
   }

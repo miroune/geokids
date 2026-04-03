@@ -6,6 +6,7 @@ import { GameState } from "../core/GameState";
 import { MenuScene } from "./MenuScene";
 import { ResultsScene } from "./ResultsScene";
 import { ProgressBar } from "@pixi/ui";
+import { Theme } from "../core/Theme";
 
 export class QCMScene extends BaseScene {
   private manager: SceneManager;
@@ -45,7 +46,7 @@ export class QCMScene extends BaseScene {
     // ── 5. Feedback ─────────────────────────────
     const feedback = new Text({
       text: "",
-      style: { fontFamily: "Arial", fontSize: 32, fill: 0xffffff },
+      style: { fontFamily: "Arial", fontSize: 32, fill: Theme.success },
     });
     feedback.anchor.set(0.5);
     feedback.x = 400;
@@ -57,7 +58,7 @@ export class QCMScene extends BaseScene {
     let answered = false;
 
     reponses.forEach((valeur, i) => {
-      const btn = this.makeButton(String(valeur));
+      const btn = this.makeButton(String(valeur), Theme.primary);
       btn.x = positionsX[i];
       btn.y = 225;
       this.addChild(btn);
@@ -70,7 +71,7 @@ export class QCMScene extends BaseScene {
           this.state.score++;
 
           feedback.text = "✅ Bravo !";
-          feedback.style.fill = 0x2ecc71;
+          feedback.style.fill = Theme.success;
 
           gsap.to(btn, {
             pixi: { scaleX: 1.2, scaleY: 1.2 },
@@ -94,7 +95,7 @@ export class QCMScene extends BaseScene {
           }, 1500);
         } else {
           feedback.text = "❌ Essaie encore !";
-          feedback.style.fill = 0xe74c3c;
+          feedback.style.fill = Theme.danger;
 
           gsap.to(btn, {
             pixi: { x: btn.x + 10 },
@@ -110,7 +111,7 @@ export class QCMScene extends BaseScene {
     });
 
     // ── 7. Bouton Menu ───────────────────────────
-    const menuBtn = this.makeButton("← Menu", 0x555555);
+    const menuBtn = this.makeButton("← Menu", Theme.bgCard);
     menuBtn.x = 400;
     menuBtn.y = 390;
     menuBtn.on("pointerdown", () =>
@@ -159,8 +160,10 @@ export class QCMScene extends BaseScene {
     btn.addChild(bg);
     btn.addChild(txt);
 
-    btn.on("pointerover", () => draw(color + 0x222222));
-    btn.on("pointerout", () => draw(color));
+    btn.on("pointerover", () => (bg.alpha = 0.8)); // légèrement transparent au survol;
+    btn.on("pointerout", () => {
+      bg.alpha = 1; // opaque normal
+    });
 
     return btn;
   }

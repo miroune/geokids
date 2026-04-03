@@ -4,6 +4,7 @@ import { BaseScene } from "../core/BaseScene";
 import { SceneManager } from "../core/SceneManager";
 import { GameState } from "../core/GameState";
 import { ResultsScene } from "./ResultsScene";
+import { Theme } from "../core/Theme";
 
 export class NumpadScene extends BaseScene {
   private manager: SceneManager;
@@ -39,7 +40,7 @@ export class NumpadScene extends BaseScene {
 
     const rect = new Graphics();
     rect.rect(-rectW / 2, -rectH / 2, rectW, rectH);
-    rect.fill(0xe74c3c);
+    rect.fill(Theme.danger);
     rect.x = 580;
     rect.y = 200;
     this.addChild(rect);
@@ -134,7 +135,7 @@ export class NumpadScene extends BaseScene {
       bg.roundRect(-30, -20, 60, 40, 10);
       bg.fill(col);
     };
-    draw(0x2471a3);
+    draw(Theme.primary);
 
     const txt = new Text({
       text: label,
@@ -144,8 +145,10 @@ export class NumpadScene extends BaseScene {
 
     btn.addChild(bg, txt);
 
-    btn.on("pointerover", () => draw(0x2471a3 + 0x222222));
-    btn.on("pointerout", () => draw(0x2471a3));
+    btn.on("pointerover", () => (bg.alpha = 0.8)); // légèrement transparent au survol;
+    btn.on("pointerout", () => {
+      bg.alpha = 1; // opaque normal
+    });
 
     btn.on("pointerdown", () => {
       if (label === "⌫") {
@@ -160,7 +163,7 @@ export class NumpadScene extends BaseScene {
         if (this.input === bonneReponse.toString()) {
           // ✅ Bonne réponse
           feedback.text = "✅ Bravo !";
-          feedback.style.fill = 0x2ecc71;
+          feedback.style.fill = Theme.success;
           this.state.score++;
           this.state.total++;
 
@@ -178,7 +181,7 @@ export class NumpadScene extends BaseScene {
         } else {
           // ❌ Mauvaise réponse → réessayer
           feedback.text = "❌ Essaie encore !";
-          feedback.style.fill = 0xe74c3c;
+          feedback.style.fill = Theme.danger;
 
           gsap.to(inputText, {
             pixi: { x: inputText.x + 8 },

@@ -7,6 +7,7 @@ import { MenuScene } from "./MenuScene";
 import { QCMScene } from "./QCMScene";
 import { DragDropScene } from "./DragDropScene";
 import { NumpadScene } from "./NumpadScene";
+import { Theme } from "../core/Theme";
 
 export class ResultsScene extends BaseScene {
   private manager: SceneManager;
@@ -58,7 +59,7 @@ export class ResultsScene extends BaseScene {
     this.addChild(stars);
 
     // ── Bouton Rejouer ────────────────────────────
-    const rejouer = this.makeButton("🔄 Rejouer", 0x27ae60);
+    const rejouer = this.makeButton("🔄 Rejouer", Theme.success);
     rejouer.x = 280;
     rejouer.y = 360;
     rejouer.on("pointerdown", () => {
@@ -74,7 +75,7 @@ export class ResultsScene extends BaseScene {
     this.addChild(rejouer);
 
     // ── Bouton Menu ───────────────────────────────
-    const menu = this.makeButton("🏠 Menu", 0x555555);
+    const menu = this.makeButton("🏠 Menu", Theme.bgCard);
     menu.x = 520;
     menu.y = 360;
     menu.on("pointerdown", () => {
@@ -123,8 +124,10 @@ export class ResultsScene extends BaseScene {
     btn.addChild(bg);
     btn.addChild(txt);
 
-    btn.on("pointerover", () => draw(color + 0x222222));
-    btn.on("pointerout", () => draw(color));
+    btn.on("pointerover", () => (bg.alpha = 0.8)); // légèrement transparent au survol;
+    btn.on("pointerout", () => {
+      bg.alpha = 1; // opaque normal
+    });
 
     return btn;
   }

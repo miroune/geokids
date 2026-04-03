@@ -7,6 +7,7 @@ import { DragDropScene } from "./DragDropScene";
 import { NumpadScene } from "./NumpadScene";
 import { QCMScene } from "./QCMScene";
 import { UITestScene } from "./UITestScene";
+import { Theme } from "../core/Theme";
 
 export class MenuScene extends BaseScene {
   private manager: SceneManager;
@@ -47,7 +48,7 @@ export class MenuScene extends BaseScene {
     this.addChild(subtitle);
 
     // ── 3 boutons côte à côte ────────────────────
-    const btnQCM = this.makeButton("➕ Calcul\nmental");
+    const btnQCM = this.makeButton("➕ Calcul\nmental", Theme.primary);
     btnQCM.x = 100;
     btnQCM.y = 330;
     btnQCM.on("pointerdown", () => {
@@ -56,7 +57,7 @@ export class MenuScene extends BaseScene {
     });
     this.addChild(btnQCM);
 
-    const btnDrag = this.makeButton("🎯 Glisser\ndéposer");
+    const btnDrag = this.makeButton("🎯 Glisser\ndéposer", Theme.secondary);
     btnDrag.x = 300;
     btnDrag.y = 330;
     btnDrag.on("pointerdown", () => {
@@ -65,7 +66,7 @@ export class MenuScene extends BaseScene {
     });
     this.addChild(btnDrag);
 
-    const btnNumpad = this.makeButton("🔢 Saisie\nlibre");
+    const btnNumpad = this.makeButton("🔢 Saisie\nlibre", Theme.accent);
     btnNumpad.x = 500;
     btnNumpad.y = 330;
     btnNumpad.on("pointerdown", () => {
@@ -74,7 +75,7 @@ export class MenuScene extends BaseScene {
     });
     this.addChild(btnNumpad);
 
-    const btnUITest = this.makeButton("🔢 UI Test");
+    const btnUITest = this.makeButton("🔢 UI Test", Theme.danger);
     btnUITest.x = 700;
     btnUITest.y = 330;
     btnUITest.on("pointerdown", () => {
@@ -103,7 +104,7 @@ export class MenuScene extends BaseScene {
   }
 
   // ── Helper bouton ────────────────────────────
-  private makeButton(label: string, color = 0x2471a3): Container {
+  private makeButton(label: string, color = Theme.primary): Container {
     const btn = new Container();
     btn.eventMode = "static";
     btn.cursor = "pointer";
@@ -130,8 +131,10 @@ export class MenuScene extends BaseScene {
     btn.addChild(bg);
     btn.addChild(txt);
 
-    btn.on("pointerover", () => draw(color + 0x222222));
-    btn.on("pointerout", () => draw(color));
+    btn.on("pointerover", () => (bg.alpha = 0.8)); // légèrement transparent au survol;
+    btn.on("pointerout", () => {
+      bg.alpha = 1; // opaque normal
+    });
 
     return btn;
   }
