@@ -5,13 +5,13 @@ import { SceneManager } from "../core/SceneManager";
 import { GameState } from "../core/GameState";
 
 export class UITestScene extends BaseScene {
-  private manager: SceneManager;
-  private state: GameState;
+  //private manager: SceneManager;
+  //private state: GameState;
 
-  constructor(manager: SceneManager, state: GameState) {
+  constructor(_manager: SceneManager, _state: GameState) {
     super();
-    this.manager = manager;
-    this.state = state;
+    //this.manager = manager;
+    //this.state = state;
   }
 
   enter(): void {
