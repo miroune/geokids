@@ -1,5 +1,5 @@
 import { Graphics, Text } from "pixi.js";
-import { FancyButton, ProgressBar } from "@pixi/ui";
+import { FancyButton, Input, ProgressBar } from "@pixi/ui";
 import { BaseScene } from "../core/BaseScene";
 import { SceneManager } from "../core/SceneManager";
 import { GameState } from "../core/GameState";
@@ -32,6 +32,15 @@ export class UITestScene extends BaseScene {
     progressBar.x = 250;
     progressBar.y = 100;
     this.addChild(progressBar);
+
+    const input = new Input({
+      bg: new Graphics().roundRect(0, 0, 200, 46, 5).fill({ color: 0xdeebf7 }), // fond
+      placeholder: "Saisir...", // texte indicatif
+      padding: { left: 10, right: 10, top: 5, bottom: 5 },
+    });
+    input.x = 300;
+    input.y = 350;
+    this.addChild(input);
   }
 
   exit(): void {
