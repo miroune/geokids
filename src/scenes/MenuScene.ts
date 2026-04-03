@@ -6,6 +6,7 @@ import { GameState } from "../core/GameState";
 import { DragDropScene } from "./DragDropScene";
 import { NumpadScene } from "./NumpadScene";
 import { QCMScene } from "./QCMScene";
+import { UITestScene } from "./UITestScene";
 
 export class MenuScene extends BaseScene {
   private manager: SceneManager;
@@ -47,7 +48,7 @@ export class MenuScene extends BaseScene {
 
     // ── 3 boutons côte à côte ────────────────────
     const btnQCM = this.makeButton("➕ Calcul\nmental");
-    btnQCM.x = 160;
+    btnQCM.x = 100;
     btnQCM.y = 330;
     btnQCM.on("pointerdown", () => {
       this.state.reset();
@@ -56,7 +57,7 @@ export class MenuScene extends BaseScene {
     this.addChild(btnQCM);
 
     const btnDrag = this.makeButton("🎯 Glisser\ndéposer");
-    btnDrag.x = 400;
+    btnDrag.x = 300;
     btnDrag.y = 330;
     btnDrag.on("pointerdown", () => {
       this.state.reset();
@@ -65,13 +66,22 @@ export class MenuScene extends BaseScene {
     this.addChild(btnDrag);
 
     const btnNumpad = this.makeButton("🔢 Saisie\nlibre");
-    btnNumpad.x = 640;
+    btnNumpad.x = 500;
     btnNumpad.y = 330;
     btnNumpad.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new NumpadScene(this.manager, this.state));
     });
     this.addChild(btnNumpad);
+
+    const btnUITest = this.makeButton("🔢 UI Test");
+    btnUITest.x = 700;
+    btnUITest.y = 330;
+    btnUITest.on("pointerdown", () => {
+      this.state.reset();
+      this.manager.go(new UITestScene(this.manager, this.state));
+    });
+    this.addChild(btnUITest);
 
     // ── Animation d'entrée ───────────────────────
     gsap.from(title, {
@@ -101,7 +111,7 @@ export class MenuScene extends BaseScene {
     const bg = new Graphics();
     const draw = (col: number) => {
       bg.clear();
-      bg.roundRect(-90, -45, 180, 90, 14);
+      bg.roundRect(-80, -40, 160, 80, 12);
       bg.fill(col);
     };
     draw(color);

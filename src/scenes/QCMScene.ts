@@ -5,6 +5,7 @@ import { SceneManager } from "../core/SceneManager";
 import { GameState } from "../core/GameState";
 import { MenuScene } from "./MenuScene";
 import { ResultsScene } from "./ResultsScene";
+import { ProgressBar } from "@pixi/ui";
 
 export class QCMScene extends BaseScene {
   private manager: SceneManager;
@@ -67,6 +68,7 @@ export class QCMScene extends BaseScene {
 
         if (valeur === bonneReponse) {
           this.state.score++;
+
           feedback.text = "✅ Bravo !";
           feedback.style.fill = 0x2ecc71;
 
@@ -115,6 +117,19 @@ export class QCMScene extends BaseScene {
       this.manager.go(new MenuScene(this.manager, this.state)),
     );
     this.addChild(menuBtn);
+
+    // -------- ProgressBar ------------
+    const progressBar = new ProgressBar({
+      bg: new Graphics().roundRect(0, 0, 300, 20, 10).fill({ color: 0x444444 }), // gris foncé
+      fill: new Graphics()
+        .roundRect(0, 0, 300, 20, 10)
+        .fill({ color: 0x2ecc71 }), // vert
+      progress: (this.state.total / 5) * 100,
+    });
+    progressBar.x = 250;
+    progressBar.y = 30;
+    //progressBar.progress = (this.state.total / 5) * 100;
+    this.addChild(progressBar);
   }
 
   exit(): void {
