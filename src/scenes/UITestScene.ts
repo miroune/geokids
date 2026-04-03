@@ -41,6 +41,9 @@ export class UITestScene extends BaseScene {
     input.x = 300;
     input.y = 350;
     this.addChild(input);
+
+    btn.onPress.connect(() => console.log(input.value));
+    input.onChange.connect(() => console.log(input.value));
   }
 
   exit(): void {
