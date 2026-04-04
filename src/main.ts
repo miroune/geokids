@@ -3,9 +3,9 @@ import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { SceneManager } from "./core/SceneManager";
 import { GameState } from "./core/GameState";
-import { MenuScene } from "./scenes/MenuScene";
 import { AssetsLoader } from "./core/AssetsLoader";
 import { Theme } from "./core/Theme";
+import { AuthScene } from "./scenes/AuthScene";
 
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI({ Application });
@@ -55,4 +55,9 @@ await AssetsLoader.loadAll();
 const state = new GameState();
 const manager = new SceneManager(app);
 
-manager.go(new MenuScene(manager, state));
+// Test connexion Supabase
+//const { data, error } = await supabase.from("profiles").select("count");
+//console.log("Supabase connecté :", data, error);
+
+manager.go(new AuthScene(manager, state));
+//manager.go(new MenuScene(manager, state));

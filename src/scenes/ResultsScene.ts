@@ -8,6 +8,7 @@ import { QCMScene } from "./QCMScene";
 import { DragDropScene } from "./DragDropScene";
 import { NumpadScene } from "./NumpadScene";
 import { Theme } from "../core/Theme";
+import { ScoreService } from "../core/ScoreService";
 
 export class ResultsScene extends BaseScene {
   private manager: SceneManager;
@@ -26,6 +27,12 @@ export class ResultsScene extends BaseScene {
   }
 
   enter(): void {
+    ScoreService.saveScore(
+      this.sceneOrigin as "qcm" | "dragdrop" | "numpad",
+      this.state.score,
+      this.state.total,
+    );
+
     // ── Titre ────────────────────────────────────
     const titre = new Text({
       text: "Résultats",

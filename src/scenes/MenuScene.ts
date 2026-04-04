@@ -6,8 +6,9 @@ import { GameState } from "../core/GameState";
 import { DragDropScene } from "./DragDropScene";
 import { NumpadScene } from "./NumpadScene";
 import { QCMScene } from "./QCMScene";
-import { UITestScene } from "./UITestScene";
 import { Theme } from "../core/Theme";
+import { supabase } from "../core/supabase";
+import { LoginScene } from "./LoginScene";
 
 export class MenuScene extends BaseScene {
   private manager: SceneManager;
@@ -49,8 +50,8 @@ export class MenuScene extends BaseScene {
 
     // ── 3 boutons côte à côte ────────────────────
     const btnQCM = this.makeButton("➕ Calcul\nmental", Theme.primary);
-    btnQCM.x = 100;
-    btnQCM.y = 330;
+    btnQCM.x = 160;
+    btnQCM.y = 300;
     btnQCM.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new QCMScene(this.manager, this.state));
@@ -58,8 +59,8 @@ export class MenuScene extends BaseScene {
     this.addChild(btnQCM);
 
     const btnDrag = this.makeButton("🎯 Glisser\ndéposer", Theme.secondary);
-    btnDrag.x = 300;
-    btnDrag.y = 330;
+    btnDrag.x = 400;
+    btnDrag.y = 300;
     btnDrag.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new DragDropScene(this.manager, this.state));
@@ -67,22 +68,33 @@ export class MenuScene extends BaseScene {
     this.addChild(btnDrag);
 
     const btnNumpad = this.makeButton("🔢 Saisie\nlibre", Theme.accent);
-    btnNumpad.x = 500;
-    btnNumpad.y = 330;
+    btnNumpad.x = 640;
+    btnNumpad.y = 300;
     btnNumpad.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new NumpadScene(this.manager, this.state));
     });
     this.addChild(btnNumpad);
 
+    /*
     const btnUITest = this.makeButton("🔢 UI Test", Theme.danger);
     btnUITest.x = 700;
-    btnUITest.y = 330;
+    btnUITest.y = 300;
     btnUITest.on("pointerdown", () => {
       this.state.reset();
       this.manager.go(new UITestScene(this.manager, this.state));
     });
     this.addChild(btnUITest);
+    */
+
+    const btnDisconnect = this.makeButton("🚪 Déconnexion", Theme.bgCard, true);
+    btnDisconnect.x = 680;
+    btnDisconnect.y = 405;
+    btnDisconnect.on("pointerdown", async () => {
+      await supabase.auth.signOut();
+      this.manager.go(new LoginScene(this.manager, this.state));
+    });
+    this.addChild(btnDisconnect);
 
     // ── Animation d'entrée ───────────────────────
     gsap.from(title, {
@@ -104,7 +116,11 @@ export class MenuScene extends BaseScene {
   }
 
   // ── Helper bouton ────────────────────────────
-  private makeButton(label: string, color = Theme.primary): Container {
+  private makeButton(
+    label: string,
+    color = Theme.primary,
+    small = false,
+  ): Container {
     const btn = new Container();
     btn.eventMode = "static";
     btn.cursor = "pointer";
@@ -112,7 +128,9 @@ export class MenuScene extends BaseScene {
     const bg = new Graphics();
     const draw = (col: number) => {
       bg.clear();
-      bg.roundRect(-80, -40, 160, 80, 12);
+      small
+        ? bg.roundRect(-60, -20, 120, 40, 12)
+        : bg.roundRect(-80, -40, 160, 80, 12);
       bg.fill(col);
     };
     draw(color);
@@ -128,6 +146,9 @@ export class MenuScene extends BaseScene {
     });
     txt.anchor.set(0.5);
 
+    if (small) {
+      txt.style.fontSize = 16;
+    }
     btn.addChild(bg);
     btn.addChild(txt);
 
